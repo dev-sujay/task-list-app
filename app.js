@@ -40,7 +40,7 @@ submitBtn.addEventListener("click", (e) => {
         editLocalStorage()
         displayAlert("task edited", "success")
         setBackToDefault()
-    } else {
+    }else{
         displayAlert("please enter task", "danger")
     }
 })
@@ -56,7 +56,7 @@ function renderList() {
     list.innerHTML = tasks.map((item) => {
         return `
                 <li class="list-item" data-id="${item.id}">
-                   <p className="title">${item.value}<p>
+                   <h3 className="title">${item.value}<h3>
                    <div class="btn-container">
                     <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
                     <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
@@ -66,11 +66,6 @@ function renderList() {
                `
     }).join("")
 
-    if (!list.innerHTML) {
-        clearBtn.classList.add("display")
-    } else {
-        clearBtn.classList.remove("display")
-    }
 
     //selecting dlt btn
 
@@ -99,7 +94,7 @@ function setBackToDefault() {
 }
 
 function deleteItem(e) {
-    let item = e.currentTarget.parentElement.parentElement
+    let item = e.currentTarget.parentElement.parentElement.parentElement
     let currentId = item.dataset.id
     item.remove()
     let storedTasks = getStorage()
@@ -115,12 +110,11 @@ function deleteItem(e) {
 
 
 function editItem(e) {
-    editElement = e.currentTarget.parentElement.previousElementSibling
+    editElement = e.currentTarget.parentElement.parentElement.parentElement.firstElementChild
     userInput.value = editElement.innerHTML
     submitBtn.innerHTML = `<i class="fa fa-pen-to-square"></i>`
     editId = editElement.parentElement.dataset.id
     editing = true
-
 }
 
 //alert
