@@ -11,15 +11,16 @@ window.addEventListener("DOMContentLoaded", showStoredTasks)
 
 submitBtn.addEventListener("click", (e) => {
     e.preventDefault()
-    let id = new Date().getTime().toString()
-    let value = userInput.value
-    if (value && !editing) {
+    
+    if (userInput.value && !editing) {
+        let value = userInput.value
+        let id = new Date().getTime().toString()
         tasks.push({ id, value })
         userInput.value = ""
         renderList()
         addToLocalStorage()
         setBackToDefault()
-    } else if (value && editing) {
+    } else if (userInput.value && editing) {
         editElement.innerHTML = userInput.value
         editLocalStorage()
         setBackToDefault()
@@ -29,38 +30,6 @@ submitBtn.addEventListener("click", (e) => {
 })
 
 
-
-function showStoredTasks() {
-    let storedTasks = JSON.parse(localStorage.getItem("tasks"))
-    if (storedTasks) {
-        tasks = storedTasks
-    }
-
-    list.innerHTML = tasks.map((item) => {
-        return `
-                <li class="list-item" data-id="${item.id}">
-                <h3 className="title">${item.value}</h3>
-                   <div class="btn-container">
-                    <button class="delete-btn">delete</button>
-                    <button class="edit-btn">edit</button>
-                   </div> 
-                </li> 
-               
-               `
-    }).join("")
-
-    const delBtns = list.querySelectorAll(".delete-btn")
-    delBtns.forEach((btn) => {
-        btn.addEventListener("click", deleteItem)
-    });
-
-    const editBtns = list.querySelectorAll(".edit-btn")
-    editBtns.forEach((btn) => {
-        btn.addEventListener("click", editItem)
-    })
-
-}
-
 function renderList() {
 
 
@@ -69,8 +38,8 @@ function renderList() {
                 <li class="list-item" data-id="${item.id}">
                 <h3 className="title">${item.value}</h3>
                    <div class="btn-container">
-                    <button class="delete-btn">delete</button>
-                    <button class="edit-btn">edit</button>
+                    <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+                    <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
                    </div> 
                 </li> 
                
@@ -104,6 +73,7 @@ function deleteItem(e) {
             return task
         }
     })
+    tasks = storedTasks
     localStorage.setItem("tasks", JSON.stringify(storedTasks))
 }
 
@@ -111,7 +81,7 @@ function deleteItem(e) {
 function editItem(e) {
     editElement = e.currentTarget.parentElement.previousElementSibling
     userInput.value = editElement.innerHTML
-    submitBtn.textContent = "edit"
+    submitBtn.innerHTML = `<i class="fa fa-pen-to-square"></i>`
     editId = editElement.parentElement.dataset.id
     editing = true
 
@@ -134,5 +104,37 @@ function setBackToDefault(){
     editing = false
     editId = ""
     userInput.value = ""
-    submitBtn.textContent  = "submit"
+    submitBtn.innerHTML  = `<i class="fa-solid fa-plus"></i>`
+}
+
+
+function showStoredTasks() {
+    let storedTasks = JSON.parse(localStorage.getItem("tasks"))
+    if (storedTasks) {
+        tasks = storedTasks
+    }
+
+    list.innerHTML = tasks.map((item) => {
+        return `
+                <li class="list-item" data-id="${item.id}">
+                <h3 className="title">${item.value}</h3>
+                   <div class="btn-container">
+                    <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+                    <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+                   </div> 
+                </li> 
+               
+               `
+    }).join("")
+
+    const delBtns = list.querySelectorAll(".delete-btn")
+    delBtns.forEach((btn) => {
+        btn.addEventListener("click", deleteItem)
+    });
+
+    const editBtns = list.querySelectorAll(".edit-btn")
+    editBtns.forEach((btn) => {
+        btn.addEventListener("click", editItem)
+    })
+
 }
