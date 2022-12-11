@@ -4,6 +4,9 @@ const userInput = document.querySelector(".user-input")
 const submitBtn = document.querySelector(".submit")
 const list = document.querySelector(".list")
 const clearBtn = document.querySelector("footer")
+const alert = document.querySelector(".alert")
+
+
 
 //default values
 
@@ -18,6 +21,8 @@ let editId = ""
 window.addEventListener("DOMContentLoaded", renderList)
 
 
+
+
 //task add and edit btn
 
 submitBtn.addEventListener("click", (e) => {
@@ -28,11 +33,15 @@ submitBtn.addEventListener("click", (e) => {
         tasks.push({ id, value })
         addToLocalStorage("tasks", tasks)
         renderList()
+        displayAlert("task added", "success")
         setBackToDefault()
     } else if (userInput.value && editing) {
         editElement.innerHTML = userInput.value
         editLocalStorage()
+        displayAlert("task edited", "success")
         setBackToDefault()
+    } else {
+        displayAlert("please enter task", "danger")
     }
 })
 
@@ -47,7 +56,7 @@ function renderList() {
     list.innerHTML = tasks.map((item) => {
         return `
                 <li class="list-item" data-id="${item.id}">
-                <h3 className="title">${item.value}</h3>
+                   <p className="title">${item.value}<p>
                    <div class="btn-container">
                     <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
                     <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
@@ -57,6 +66,11 @@ function renderList() {
                `
     }).join("")
 
+    if (!list.innerHTML) {
+        clearBtn.classList.add("display")
+    } else {
+        clearBtn.classList.remove("display")
+    }
 
     //selecting dlt btn
 
@@ -95,6 +109,8 @@ function deleteItem(e) {
         }
     })
     addToLocalStorage("tasks", tasks)
+    renderList()
+    displayAlert("task deleted", "danger")
 }
 
 
@@ -107,11 +123,24 @@ function editItem(e) {
 
 }
 
+//alert
 
+function displayAlert(value, color) {
+
+    alert.textContent = value + ` !`
+    alert.classList.add(`alert-${color}`)
+
+    setTimeout(() => {
+        alert.textContent = ""
+        alert.classList.remove(`alert-${color}`)
+    }, 1000);
+
+
+}
 
 //localstorage functions
 
-function getStorage(){
+function getStorage() {
     return JSON.parse(localStorage.getItem("tasks"))
 }
 
@@ -137,6 +166,7 @@ clearBtn.addEventListener("click", () => {
     localStorage.clear()
     tasks = []
     renderList()
+    displayAlert("cleared tasks", "danger")
     setBackToDefault()
 
 })
