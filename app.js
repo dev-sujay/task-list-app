@@ -1,6 +1,7 @@
 const userInput = document.querySelector(".user-input")
 const submitBtn = document.querySelector(".submit")
 const list = document.querySelector(".list")
+const clearBtn = document.querySelector("footer")
 let tasks = []
 let editing = false
 let editElement
@@ -138,3 +139,11 @@ function showStoredTasks() {
     })
 
 }
+
+clearBtn.addEventListener("click", () => {
+  localStorage.clear()
+  tasks = []
+  renderList()
+  setBackToDefault()
+
+})
