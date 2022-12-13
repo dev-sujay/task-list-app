@@ -56,7 +56,7 @@ function renderList() {
     list.innerHTML = tasks.map((item) => {
         return `
                 <li class="list-item" data-id="${item.id}">
-                   <h3 className="title">${item.value}<h3>
+                   <h3 className="title">${item.value}</h3>
                    <div class="btn-container"> 
                     <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
                     <button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
@@ -64,7 +64,6 @@ function renderList() {
                 </li> 
                
                `
-        //! one h3 element is created as the barent of btn-container why?
     }).join("")
 
     //clearbtn visibility
@@ -97,7 +96,7 @@ function setBackToDefault() {
 }
 
 function deleteItem(e) {
-    let item = e.currentTarget.parentElement.parentElement.parentElement
+    let item = e.currentTarget.parentElement.parentElement
     let currentId = item.dataset.id
     item.remove()
     let storedTasks = getStorage()
@@ -113,7 +112,7 @@ function deleteItem(e) {
 
 
 function editItem(e) {
-    editElement = e.currentTarget.parentElement.parentElement.parentElement.firstElementChild
+    editElement = e.currentTarget.parentElement.parentElement.firstElementChild
     userInput.value = editElement.innerHTML
     submitBtn.innerHTML = `<i class="fa fa-pen-to-square"></i>`
     editId = editElement.parentElement.dataset.id
