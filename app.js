@@ -68,7 +68,6 @@ function renderList() {
     }).join("")
 
     //clearbtn visibility
-    
     list.innerHTML === "" ? clearBtn.classList.add("hide") : clearBtn.classList.remove("hide")
 
     //selecting dlt btn
