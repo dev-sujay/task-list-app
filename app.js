@@ -40,7 +40,7 @@ submitBtn.addEventListener("click", (e) => {
         editLocalStorage()
         displayAlert("task edited", "success")
         setBackToDefault()
-    }else{
+    } else {
         displayAlert("please enter task", "danger")
     }
 })
@@ -64,9 +64,12 @@ function renderList() {
                 </li> 
                
                `
-               //! one h3 element is created as the barent of btn-container why?
+        //! one h3 element is created as the barent of btn-container why?
     }).join("")
 
+    //clearbtn visibility
+    
+    list.innerHTML === "" ? clearBtn.classList.add("hide") : clearBtn.classList.remove("hide")
 
     //selecting dlt btn
 
